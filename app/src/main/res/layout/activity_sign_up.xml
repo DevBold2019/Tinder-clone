@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Registry.SignUpActivity">
+
+    <EditText
+        android:id="@+id/emaillSignUp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:drawableLeft="@drawable/ic_email_black_24dp"
+        android:hint="Email Address"
+        android:inputType="text"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/passwordSignUp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:drawableLeft="@drawable/ic_favorite_black_24dp"
+        android:hint="password"
+        android:inputType="textPassword"
+        app:layout_constraintTop_toBottomOf="@id/emaillSignUp" />
+
+    <EditText
+        android:id="@+id/passwordSignUpConfirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:drawableLeft="@drawable/ic_favorite_black_24dp"
+        android:hint="confirm password"
+        android:inputType="textPassword"
+        app:layout_constraintTop_toBottomOf="@id/passwordSignUp" />
+
+    <Button
+        android:id="@+id/signUpButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:inputType="text"
+        android:text="SignUp"
+        app:layout_constraintTop_toBottomOf="@id/passwordSignUpConfirm" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

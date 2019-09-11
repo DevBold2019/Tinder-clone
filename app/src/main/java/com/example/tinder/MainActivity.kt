@@ -1,0 +1,73 @@
+package com.example.tinder
+
+import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.view.View
+import android.view.WindowManager
+import android.widget.Button
+import android.widget.TextView
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
+import com.example.tinder.WalkThroughImplementation.walkAdapter
+import com.example.tinder.WalkThroughImplementation.walkModel
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
+import kotlinx.android.synthetic.main.f3_lay.*
+class MainActivity : AppCompatActivity() {
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val list: List<walkModel>
+        var adapter: walkAdapter
+
+
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
+
+        val vpg: ViewPager = findViewById(R.id.viewPager)
+        val b1: Button = findViewById(R.id.getStartedButton)
+        val b2: Button = findViewById(R.id.nextButton)
+        val txt: TextView = findViewById(R.id.skipText)
+        val tb: TabLayout = findViewById(R.id.tabLayout)
+
+
+
+
+        list = arrayListOf(
+            walkModel("Welcome to Tinder", "Find Love", R.drawable.pic),
+            walkModel("Welcome to Tinder", "Find Love", R.drawable.pic),
+            walkModel("Welcome to Tinder", "Find Love", R.drawable.pic),
+            walkModel("Welcome to Tinder", "Find Love", R.drawable.pic),
+            walkModel("Welcome to Tinder", "Find Love", R.drawable.pic)
+        )
+
+
+        adapter = walkAdapter(applicationContext, list)
+        vpg.adapter = adapter
+        tb.setupWithViewPager(vpg)
+
+        b1.visibility = View.VISIBLE
+
+
+        b1.setOnClickListener(View.OnClickListener {
+
+           // overridePendingTransition(R.anim.new_page_animation,R.anim.exit_page_animation)
+            intent = Intent(applicationContext, mainScreen::class.java)
+            startActivity(intent)
+            finish()
+
+        })
+
+
+
+
+
+    }
+
+}
