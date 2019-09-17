@@ -1,4 +1,5 @@
 package com.example.tinder.Chats
 
-class chatModel {
+class chatModel(val username:String,val message:String,val userPic:Int) {
+
 }

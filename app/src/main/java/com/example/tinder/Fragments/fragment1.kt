@@ -18,16 +18,18 @@ import com.lorentzos.flingswipe.SwipeFlingAdapterView
 
 class fragment1 : Fragment() {
 
+
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
-        val view: View =inflater.inflate(com.example.tinder.R.layout.f1_lay,container,false)
-        val cards:SwipeFlingAdapterView=view.findViewById(R.id.swipeCard)
-
-
 
         val list:List<matchModel>
         val adapter:matchAdapter
         val context:Context
+
+        val view: View =inflater.inflate(R.layout.f1_lay,container,false)
+        val cards:SwipeFlingAdapterView=view.findViewById(R.id.swipeCard)
+
 
       list= arrayListOf(
 

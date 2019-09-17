@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.tinder">
 
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,7 +12,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Registry.SignUpActivity"></activity>
+        <activity android:name=".recycler"></activity>
+        <activity android:name=".Chats.Inbox.inboxActivity" android:parentActivityName=".mainScreen" />
+        <activity android:name=".Settings.profileActivity" android:parentActivityName=".mainScreen"/>
+        <activity
+            android:name=".Settings.mainSettingsActivity"
+            android:parentActivityName=".mainScreen" />
+        <activity android:name=".Registry.SignUpActivity" />
         <activity android:name=".Registry.RegisterActivity" />
         <activity android:name=".mainScreen" />
         <activity android:name=".MainActivity">

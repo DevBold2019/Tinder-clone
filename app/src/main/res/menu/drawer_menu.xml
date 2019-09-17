@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item
+        android:title="Notifications"
+        android:id="@+id/notifications"
+        android:icon="@drawable/ic_notifications_active_black_24dp"/>
+
+    <item
+        android:title="Logout"
+        android:id="@+id/logout"
+        android:icon="@drawable/ic_exit_to_app_black_24dp"/>
+
+
 </menu>
