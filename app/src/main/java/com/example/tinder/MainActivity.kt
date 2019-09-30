@@ -40,10 +40,8 @@ class MainActivity : AppCompatActivity() {
 
         list = arrayListOf(
             walkModel("Welcome to Tinder", "Find Love", R.drawable.pic),
-            walkModel("Welcome to Tinder", "Find Love", R.drawable.pic),
-            walkModel("Welcome to Tinder", "Find Love", R.drawable.pic),
-            walkModel("Welcome to Tinder", "Find Love", R.drawable.pic),
-            walkModel("Welcome to Tinder", "Find Love", R.drawable.pic)
+            walkModel("Meet singles", "Find Love", R.drawable.pic),
+            walkModel("Congratulation", "Get Ready to Find Love", R.drawable.fireworks)
         )
 
 

@@ -9,14 +9,24 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import com.example.tinder.R
+import com.example.tinder.Settings.mainSettingsActivity
 import com.example.tinder.mainScreen
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : AppCompatActivity() {
+
+    lateinit var fAuth:FirebaseAuth
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+
+        fAuth=FirebaseAuth.getInstance()
+        val user=fAuth.currentUser
 
 
 
@@ -45,11 +55,38 @@ class RegisterActivity : AppCompatActivity() {
 
 
         btn.setOnClickListener(View.OnClickListener {
-            pdiag.show()
+           /* pdiag.show()
             intent= Intent(applicationContext,mainScreen::class.java)
             pdiag.dismiss()
             startActivity(intent)
             finish()
+*/
+           val email = emailLogin.text.toString()
+           val password = passwordLogin.text.toString()
+
+            // if (e1.text.toString().isNotEmpty() || e2.text.toString().isNotEmpty()) {
+
+            fAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(this){ task ->
+
+                if (task.isSuccessful){
+                    /* dialog.show()
+                     val btn:TextView=dialog.findViewById(R.id.submitText)
+
+                     btn.setOnClickListener(View.OnClickListener {
+                     })*/
+                    Toast.makeText(applicationContext,"Sucessfull", Toast.LENGTH_SHORT).show()
+                    intent= Intent(this,mainScreen::class.java)
+                    startActivity(intent)
+                    finish()
+
+                }else{
+                    Toast.makeText(applicationContext,"Cant Register you", Toast.LENGTH_SHORT).show()
+                }
+
+            }
+
+
+            //}
 
 
         })

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "23181052528",
+    "firebase_url": "https://findlove-9b159.firebaseio.com",
+    "project_id": "findlove-9b159",
+    "storage_bucket": "findlove-9b159.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:23181052528:android:52385a76b761ba1a4dc2b5",
+        "android_client_info": {
+          "package_name": "com.example.tinder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "23181052528-qot20p4caenkcahkmtuboj2fn82rl6hb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tinder",
+            "certificate_hash": "d42fb16fb020a50db7bd410f69ce1d844cb939f9"
+          }
+        },
+        {
+          "client_id": "23181052528-0ca107338rgqpg1pdkur04ha4q4gbtur.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbCtI26IExTxYHyl-T1tODqF2SXDVUago"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "23181052528-0ca107338rgqpg1pdkur04ha4q4gbtur.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

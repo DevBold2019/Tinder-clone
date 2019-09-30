@@ -13,72 +13,76 @@ import android.widget.Toast
 import com.example.tinder.R
 import com.example.tinder.Settings.mainSettingsActivity
 import com.example.tinder.mainScreen
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_sign_up.*
 
 class SignUpActivity : AppCompatActivity() {
+
+    lateinit var fireAuth: FirebaseAuth
+    lateinit var dialog: Dialog
+    lateinit var email: String
+    lateinit var password: String
+    lateinit var password2: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
 
-        val pdialog:ProgressDialog= ProgressDialog(this)
-        val dialog:Dialog= Dialog(this)
+
+        var fireData: FirebaseDatabase
 
 
+        //getting instance and the Current user
+        fireAuth = FirebaseAuth.getInstance()
+        val currentUser = fireAuth.currentUser
 
-        val btn: Button =findViewById(R.id.signUpButton)
-        val e1: EditText =findViewById(R.id.emailSignUp)
-        val e2: EditText =findViewById(R.id.passwordSignUp)
-        val e3: EditText =findViewById(R.id.passwordSignUpConfirm)
+        val pdialog: ProgressDialog = ProgressDialog(this)
+        /*  val signingUp:ProgressDialog= ProgressDialog(this)
+        signingUp.setMessage("Signing up")*/
+
+        dialog = Dialog(this)
+        dialog.setContentView(R.layout.select_gender)
+
+
+        val btn: Button = findViewById(R.id.signUpButton)
+
+        val e1: EditText = findViewById(R.id.emailSignUp)
+        val e2: EditText = findViewById(R.id.passwordSignUp)
+        val e3: EditText = findViewById(R.id.passwordSignUpConfirm)
+
+
+        pdialog.setTitle("Signing you up")
+        pdialog.setMessage("wait a sec")
+        pdialog.setCanceledOnTouchOutside(false)
 
 
         btn.setOnClickListener(View.OnClickListener {
 
 
-            pdialog.setTitle("Signing you up")
-            pdialog.setMessage("wait a sec")
-            pdialog.setCanceledOnTouchOutside(false)
+            email = emailSignUp.text.toString()
+            password = passwordSignUp.text.toString()
 
-            val p3=e3.text.toString()
+                fireAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(this){ task ->
 
-            if (e2.text.toString().equals(p3)){
-/*
-                intent= Intent(applicationContext,mainSettingsActivity::class.java)
-                startActivity(intent)
-                finish()*/
-
-                dialog.setContentView(R.layout.select_gender)
-                val tx:TextView=dialog.findViewById(R.id.submitText)
+                    if (task.isSuccessful){
 
 
-                tx.setOnClickListener(View.OnClickListener {
+                        intent= Intent(this,mainSettingsActivity::class.java)
+                        startActivity(intent)
+                        finish()
 
-                    pdialog.dismiss()
-
-                    intent= Intent(applicationContext,mainSettingsActivity::class.java)
-                    startActivity(intent)
-                    finish()
-
-                })
-                dialog.show()
-
-
-
-
-                Toast.makeText(this,"Sucess",Toast.LENGTH_SHORT).show()
-
-            }
-            else{
-
-                e2.setError("password dont match")
-
-            }
-
-            pdialog.dismiss()
-
+                    }else{
+                        Toast.makeText(applicationContext,"Cant Register you",Toast.LENGTH_SHORT).show()
+                    }
 
         })
 
 
     }
+
 }
+
+
