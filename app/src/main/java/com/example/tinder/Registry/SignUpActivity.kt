@@ -14,6 +14,8 @@ import com.example.tinder.R
 import com.example.tinder.Settings.mainSettingsActivity
 import com.example.tinder.mainScreen
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
@@ -40,6 +42,7 @@ class SignUpActivity : AppCompatActivity() {
         val currentUser = fireAuth.currentUser
 
         val pdialog: ProgressDialog = ProgressDialog(this)
+
         /*  val signingUp:ProgressDialog= ProgressDialog(this)
         signingUp.setMessage("Signing up")*/
 
@@ -54,34 +57,51 @@ class SignUpActivity : AppCompatActivity() {
         val e3: EditText = findViewById(R.id.passwordSignUpConfirm)
 
 
+
+
         pdialog.setTitle("Signing you up")
         pdialog.setMessage("wait a sec")
         pdialog.setCanceledOnTouchOutside(false)
 
 
         btn.setOnClickListener(View.OnClickListener {
+            email = e1.text.toString()
+            password = e2.text.toString()
+
+            pdialog.show()
+            fireAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task: Task<AuthResult> ->
+                if (task.isSuccessful) {
+
+                    dialog.show()
+
+                    val textt1:TextView=dialog.findViewById(R.id.submitText)
+                    textt1.setOnClickListener {
+
+                    intent= Intent(this,mainSettingsActivity::class.java)
+                   startActivity(intent)
+                   finish()
 
 
-            email = emailSignUp.text.toString()
-            password = passwordSignUp.text.toString()
-
-                fireAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(this){ task ->
-
-                    if (task.isSuccessful){
-
-
-                        intent= Intent(this,mainSettingsActivity::class.java)
-                        startActivity(intent)
-                        finish()
-
-                    }else{
-                        Toast.makeText(applicationContext,"Cant Register you",Toast.LENGTH_SHORT).show()
                     }
+
+
+                } else {
+
+                    Toast.makeText(applicationContext,"Cant Register you",Toast.LENGTH_SHORT).show()
+                }
+            }
+
 
         })
 
 
-    }
+
+
+
+
+
+
+}
 
 }
 

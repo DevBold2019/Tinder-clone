@@ -21,8 +21,15 @@ import com.example.tinder.Settings.profileActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_main_screen.*
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+
+
 
 class mainScreen : AppCompatActivity() {
+
+   lateinit var tog: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,15 +43,20 @@ class mainScreen : AppCompatActivity() {
         val vpg: ViewPager = findViewById(R.id.mainScreenViewPager)
         val tlb:   Toolbar=findViewById(R.id.mainScreenToolBar)
 
-       /* val drw:DrawerLayout=findViewById(R.id.myDrawer1)
-        val tog: ActionBarDrawerToggle = ActionBarDrawerToggle(this,drw,R.string.open,R.string.close)
+
+        val drw:DrawerLayout=findViewById(R.id.drawerLayout)
+
+        tog = ActionBarDrawerToggle(this,drw,tlb,R.string.open,R.string.close)
+        tog.isDrawerIndicatorEnabled=true
         drw.addDrawerListener(tog)
-        tog.syncState()*/
+       // tog.setHomeAsUpIndicator(R.drawable.ic_arrow_upward_black_24dp)
+        tog.syncState()
 
 
       val title:String="Tinder"
         setSupportActionBar(tlb)
         supportActionBar!!.title=title
+       // supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
 
         adapter = fragmentAdapter(supportFragmentManager)
@@ -55,6 +67,13 @@ class mainScreen : AppCompatActivity() {
         tbl.setupWithViewPager(vpg)
 
 
+    }
+
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        tog.syncState()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

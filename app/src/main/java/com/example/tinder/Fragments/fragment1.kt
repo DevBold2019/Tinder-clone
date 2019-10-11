@@ -33,8 +33,11 @@ class fragment1 : Fragment() {
 
       list= arrayListOf(
 
-          matchModel("Meggy","22",R.drawable.meg,"Nairobi"),
-          matchModel("Meggy","22",R.drawable.pic,"Nairobi"),
+          matchModel("Meggy","22",R.drawable.curlycurlyhaireyes718978,"Nairobi"),
+          matchModel("Keyshia","22",R.drawable.beautifulbodydress944761,"Nairobi"),
+          matchModel("Tiana","22",R.drawable.afroattractivebeautiful2701926,"Nairobi"),
+          matchModel("Prianca","22",R.drawable.beautifulblackcloseup1689731,"Nairobi"),
+          matchModel("Cate","22",R.drawable.afroafrohairbeautiful2519771,"Nairobi"),
           matchModel("Orite","22",R.drawable.orite,"Nairobi"))
 
 
@@ -58,13 +61,13 @@ class fragment1 : Fragment() {
 
             override fun onLeftCardExit(dataObject: Any) {
 
-                Toast.makeText(container!!.context,"Huyu ame beat",Toast.LENGTH_LONG).show()
+                Toast.makeText(container!!.context,"Dislike ",Toast.LENGTH_LONG).show()
 
             }
 
             override fun onRightCardExit(dataObject: Any) {
 
-                Toast.makeText(container!!.context,"I like her",Toast.LENGTH_LONG).show()
+                Toast.makeText(container!!.context,"Like",Toast.LENGTH_LONG).show()
 
             }
 
@@ -75,6 +78,9 @@ class fragment1 : Fragment() {
             override fun onScroll(scrollProgressPercent: Float) {
 
             }
+
+
+
         })
 
 

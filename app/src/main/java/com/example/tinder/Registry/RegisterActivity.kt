@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_register.*
 class RegisterActivity : AppCompatActivity() {
 
     lateinit var fAuth:FirebaseAuth
+    var mAuthListenr : FirebaseAuth.AuthStateListener? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +27,39 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(R.layout.activity_register)
 
         fAuth=FirebaseAuth.getInstance()
-        val user=fAuth.currentUser
+       // val user=fAuth.currentUser
+
+       mAuthListenr=FirebaseAuth.AuthStateListener { object : FirebaseAuth.AuthStateListener  {
+
+           override fun onAuthStateChanged(p0: FirebaseAuth) {
+
+               val currentUser=fAuth.currentUser
+
+               if (currentUser !=null){
+
+                   intent= Intent(applicationContext,mainScreen::class.java)
+                   startActivity(intent)
+                   finish()
+
+                   return
+
+               }else{
+
+                   Toast.makeText(applicationContext,"No current User\n please Login or Sign up",Toast.LENGTH_SHORT).show()
+
+                   intent= Intent(applicationContext,RegisterActivity::class.java)
+                   startActivity(intent)
+                   finish()
+
+
+               }
+
+
+
+
+           }
+
+       } }
 
 
 
@@ -94,5 +127,15 @@ class RegisterActivity : AppCompatActivity() {
 
 
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mAuthListenr?.let { fAuth.addAuthStateListener(it) }
+    }
+
+     override fun onStop() {
+        super.onStop()
+         mAuthListenr?.let { fAuth.removeAuthStateListener(it) }
     }
 }
