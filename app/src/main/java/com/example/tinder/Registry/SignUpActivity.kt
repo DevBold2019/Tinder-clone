@@ -26,12 +26,13 @@ class SignUpActivity : AppCompatActivity() {
     lateinit var email: String
     lateinit var password: String
     lateinit var password2: String
-    private lateinit var database: DatabaseReference
+    lateinit var databaseRef: DatabaseReference
 
     lateinit var radioGroup:RadioGroup
     lateinit var  radioButton :RadioButton
     lateinit var  userId:String
     lateinit var Gender:String
+    lateinit var  text1 :TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,10 +67,9 @@ class SignUpActivity : AppCompatActivity() {
 
         //Getting Selected gender from the radioButton
         radioGroup.setOnCheckedChangeListener(object : RadioGroup.OnCheckedChangeListener {
+
             override fun onCheckedChanged(p0: RadioGroup?, p1: Int) {
-
                 if(R.id.radioMale == p1){
-
                     Gender = "Male"
                 }
                 else if (R.id.radioFemale == p1){
@@ -83,49 +83,39 @@ class SignUpActivity : AppCompatActivity() {
         pdialog.setMessage("wait a sec")
         pdialog.setCanceledOnTouchOutside(false)*/
 
-        //getting Id of the current user
-        userId = fireAuth.getCurrentUser()!!.getUid()
+
 
         btn.setOnClickListener(View.OnClickListener {
             email = e1.text.toString()
             password = e2.text.toString()
             dialog.show()
 
-            val text1:TextView=dialog.findViewById(R.id.submitText)
-
-            text1.setOnClickListener(View.OnClickListener {
-
-                Toast.makeText(applicationContext,""+Gender,Toast.LENGTH_LONG).show()
-            })
+            text1=dialog.findViewById(R.id.submitText)
 
 
            // pdialog.show()
-          /*  fireAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task: Task<AuthResult> ->
+            fireAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task: Task<AuthResult> ->
                 if (task.isSuccessful) {
+                    //getting Id of the current user
+                    userId = fireAuth.getCurrentUser()!!.getUid()
 
-                    dialog.show()
+                    text1.setOnClickListener(View.OnClickListener {
 
-                    val text1:TextView=dialog.findViewById(R.id.submitText)
+                        Toast.makeText(applicationContext,""+Gender,Toast.LENGTH_LONG).show()
+                        databaseRef = FirebaseDatabase.getInstance().reference.child("Users").child(Gender).child(userId)
 
-                    text1.setOnClickListener {
-
-                        database = FirebaseDatabase.getInstance().reference.child("Users").child(radioButton.text.toString()).child(userId)
-
-
-                        intent= Intent(this,mainSettingsActivity::class.java)
-                   startActivity(intent)
-                   finish()
+                        intent= Intent(applicationContext,mainScreen::class.java)
+                        startActivity(intent)
+                        finish()
 
 
-                    }
-
+                    })
 
                 } else {
-
                     Toast.makeText(applicationContext,"Cant Register you",Toast.LENGTH_SHORT).show()
                 }
             }
-*/
+
 
         })
 

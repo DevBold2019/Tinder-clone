@@ -34,9 +34,9 @@ class fragment2 : Fragment() {
 
 
         list= arrayListOf(
-            chatModel("Amos","hello",R.drawable.orite),
-            chatModel("Amos","hello",R.drawable.meg),
-            chatModel("Amos","hello",R.drawable.orite),
+            chatModel("Tiana","hello",R.drawable.beautifulblackcloseup1689731),
+            chatModel("Meg","hello",R.drawable.meg),
+            chatModel("Amos","hello",R.drawable.beautifulbodydress944761),
             chatModel("Amos","hello",R.drawable.orite))
 
 
