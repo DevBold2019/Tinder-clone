@@ -3,7 +3,9 @@ package com.example.tinder.Registry
 
 import android.app.Dialog
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -39,12 +41,16 @@ class RegisterActivity : AppCompatActivity() {
         dialog.setCanceledOnTouchOutside(false)
 
         fAuth=FirebaseAuth.getInstance()
-       // val user=fAuth.currentUser
+
+        currentUser= fAuth.currentUser!!
+
+
+        //thi functions checks if theres an active user in the app to keep the user logged In
+        checkUser()
 
 
 
-
-
+        //finding Views
         val txt1:TextView=findViewById(R.id.signupText)
         val txt2:TextView=findViewById(R.id.forgotPassword)
         val btn:Button=findViewById(R.id.loginButton)
@@ -54,6 +60,7 @@ class RegisterActivity : AppCompatActivity() {
 
 
 
+        //takes user to sign up activity
         txt1.setOnClickListener(View.OnClickListener {
 
             intent= Intent(applicationContext,SignUpActivity::class.java)
@@ -64,6 +71,7 @@ class RegisterActivity : AppCompatActivity() {
         })
 
 
+        //button handles the saving
         btn.setOnClickListener(View.OnClickListener {
 
             dialog.show()
@@ -72,16 +80,18 @@ class RegisterActivity : AppCompatActivity() {
            val password = e2.text.toString()
 
 
+            //signing user
             fAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(this){ task ->
 
                 if (task.isSuccessful){
                     dialog.dismiss()
-                    checkUser()
 
                     Toast.makeText(applicationContext,"current User is"+currentUser, Toast.LENGTH_SHORT).show()
                     Toast.makeText(applicationContext,"Sucessfull", Toast.LENGTH_SHORT).show()
 
                     intent= Intent(this,mainScreen::class.java)
+
+
                     startActivity(intent)
                     finish()
 
@@ -91,51 +101,59 @@ class RegisterActivity : AppCompatActivity() {
 
             }
 
-
-            //}
-
-
         })
-
-
-
 
     }
 
-    fun checkUser(){
+    //saves user login data to keep ém logged in
+    fun checkUser() {
 
-        mAuthListenr=FirebaseAuth.AuthStateListener { object : FirebaseAuth.AuthStateListener  {
+        mAuthListenr = FirebaseAuth.AuthStateListener { object : FirebaseAuth.AuthStateListener {
 
-            override fun onAuthStateChanged(p0: FirebaseAuth) {
+                override fun onAuthStateChanged(p0: FirebaseAuth) {
 
-                currentUser= fAuth.currentUser!!
+                    currentUser = fAuth.currentUser!!
 
-                if (currentUser !=null){
+                    if (currentUser != null) {
 
-                    intent= Intent(applicationContext,mainScreen::class.java)
-                    startActivity(intent)
-                    finish()
+                        intent = Intent(applicationContext, mainScreen::class.java)
+                        startActivity(intent)
+                        finish()
 
-                    return
+                        return
 
-                }else{
+                    } else {
 
-                    Toast.makeText(applicationContext,"No current User\n please Login or Sign up",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(applicationContext, "No current User\n please Login or Sign up", Toast.LENGTH_SHORT).show()
 
-                    intent= Intent(applicationContext,RegisterActivity::class.java)
-                    startActivity(intent)
-                    finish()
+                        intent = Intent(applicationContext, RegisterActivity::class.java)
+                        startActivity(intent)
+                        finish()
 
+                    }
 
                 }
 
 
-
-
             }
+        }
 
-        } }
 
+
+        }
+
+
+    //incase save user fails we store user login details and use it to always keep used logged in
+    fun saveUser() {
+
+        val shared: SharedPreferences
+        val name: String = "savedata"
+        val editor: SharedPreferences.Editor
+
+        shared = getSharedPreferences(name, Context.MODE_PRIVATE)
+        editor = shared.edit()
+        editor.putBoolean("areYouLogged", true)
+        editor.apply()
 
 
     }
@@ -143,11 +161,17 @@ class RegisterActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        mAuthListenr?.let { fAuth.addAuthStateListener(it) }
+
+
     }
 
-     override fun onStop() {
-        super.onStop()
-         mAuthListenr?.let { fAuth.removeAuthStateListener(it) }
+
+
+
+
     }
-}
+
+
+
+
+

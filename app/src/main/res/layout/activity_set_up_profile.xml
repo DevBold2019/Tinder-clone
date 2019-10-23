@@ -38,7 +38,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/beautifulbodydress944761"
+                    android:src="@drawable/ic_edit_black_24dp"
                     android:layout_margin="30dp"/>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -99,6 +99,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Save"
+                    android:onClick="goToMainWindow"
                     app:layout_constraintTop_toBottomOf="@+id/WorkPLace"
                     android:layout_margin="20dp"/>
 

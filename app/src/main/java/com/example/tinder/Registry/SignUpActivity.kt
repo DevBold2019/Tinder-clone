@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.*
 import com.example.tinder.R
 import com.example.tinder.Settings.mainSettingsActivity
+import com.example.tinder.Settings.setUpProfile
 import com.example.tinder.mainScreen
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
@@ -30,7 +31,6 @@ class SignUpActivity : AppCompatActivity() {
 
     lateinit var radioGroup:RadioGroup
     lateinit var  radioButton :RadioButton
-    lateinit var  userId:String
     lateinit var Gender:String
     lateinit var  text1 :TextView
 
@@ -44,7 +44,7 @@ class SignUpActivity : AppCompatActivity() {
 
         //getting instance and the Current user
         fireAuth = FirebaseAuth.getInstance()
-        val currentUser = fireAuth.currentUser
+       // val currentUser = fireAuth.currentUser
 
         val pdialog: ProgressDialog = ProgressDialog(this)
 
@@ -85,26 +85,38 @@ class SignUpActivity : AppCompatActivity() {
 
 
 
-        btn.setOnClickListener(View.OnClickListener {
-            email = e1.text.toString()
-            password = e2.text.toString()
-            dialog.show()
+        //getting Id of the current user
+        val userId = fireAuth.getCurrentUser()!!.getUid()
 
-            text1=dialog.findViewById(R.id.submitText)
+        btn.setOnClickListener(View.OnClickListener {
+
+            email=e1.text.toString()
+            password=e2.text.toString()
+
 
 
            // pdialog.show()
             fireAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task: Task<AuthResult> ->
                 if (task.isSuccessful) {
-                    //getting Id of the current user
-                    userId = fireAuth.getCurrentUser()!!.getUid()
+
+                    dialog.show()
+                    text1=dialog.findViewById(R.id.submitText)
+
 
                     text1.setOnClickListener(View.OnClickListener {
 
                         Toast.makeText(applicationContext,""+Gender,Toast.LENGTH_LONG).show()
                         databaseRef = FirebaseDatabase.getInstance().reference.child("Users").child(Gender).child(userId)
+                        databaseRef.setValue("true")
 
-                        intent= Intent(applicationContext,mainScreen::class.java)
+                        intent= Intent(applicationContext,setUpProfile::class.java)
+
+                        //passing value to the next Activity
+                        val bundle:Bundle= Bundle()
+                        bundle.putString("gender",Gender)
+                        bundle.putString("userid",userId)
+                        intent.putExtras(bundle)
+
                         startActivity(intent)
                         finish()
 

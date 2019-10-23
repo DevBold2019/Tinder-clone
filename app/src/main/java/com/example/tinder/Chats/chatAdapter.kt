@@ -35,7 +35,7 @@ class chatAdapter (val context: Context,val list: List<chatModel>): RecyclerView
 
         holder.t1.text=pos.username
         holder.t2.text=pos.message
-        holder.pic1.setImageResource(pos.userPic)
+        Glide.with(context).load(pos.userPic).into(holder.pic1)
 
         holder.lay.setOnClickListener(View.OnClickListener {
 
