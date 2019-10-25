@@ -48,10 +48,10 @@ class matchAdapter: BaseAdapter {
         val t2:TextView=view.findViewById(R.id.MateAge)
         val t3:TextView=view.findViewById(R.id.MateLocation)
 
-        t1.text=contains.name
+        t1.text=contains.Name
         t2.text=contains.Age
-        t3.text=contains.location
-        Glide.with(view).load(contains.pic).into(image)
+      /*  t3.text=contains.location
+        Glide.with(view).load(contains.pic).into(image)*/
 
 
 

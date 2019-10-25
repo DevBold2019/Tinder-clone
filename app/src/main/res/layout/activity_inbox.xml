@@ -43,6 +43,7 @@
                 android:layout_height="45dp"
                 android:layout_margin="10dp"
                 android:hint="Type mesage here\t\t\t\t\t\t\t"
+                android:drawableLeft="@drawable/ic_insert_emoticon_black_24dp"
                 android:maxWidth="300dp"
                 android:maxHeight="300dp"
                 android:maxLines="8"
@@ -51,14 +52,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/sendMessageButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_marginBottom="10dp"
                 android:gravity="center"
-                android:text="Send"
+                android:src="@drawable/ic_send_black_24dp"
+                android:background="@drawable/send_bg"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

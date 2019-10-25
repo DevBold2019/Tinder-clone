@@ -42,15 +42,23 @@ class RegisterActivity : AppCompatActivity() {
 
         fAuth=FirebaseAuth.getInstance()
 
-        currentUser= fAuth.currentUser!!
-
-
-        //thi functions checks if theres an active user in the app to keep the user logged In
-        checkUser()
 
 
 
-        //finding Views
+
+        //this functions checks if there is an active user in the app to keep the user logged In
+        if (getsaved()){
+
+            intent= Intent(this,mainScreen::class.java)
+            startActivity(intent)
+            finish()
+
+        }
+
+
+
+
+        //finding Views by id's
         val txt1:TextView=findViewById(R.id.signupText)
         val txt2:TextView=findViewById(R.id.forgotPassword)
         val btn:Button=findViewById(R.id.loginButton)
@@ -83,15 +91,17 @@ class RegisterActivity : AppCompatActivity() {
             //signing user
             fAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(this){ task ->
 
+                currentUser= fAuth.currentUser!!
+
                 if (task.isSuccessful){
                     dialog.dismiss()
 
-                    Toast.makeText(applicationContext,"current User is"+currentUser, Toast.LENGTH_SHORT).show()
-                    Toast.makeText(applicationContext,"Sucessfull", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext,"Current User is"+currentUser.toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext,"Success", Toast.LENGTH_SHORT).show()
+
+                    saveUser()
 
                     intent= Intent(this,mainScreen::class.java)
-
-
                     startActivity(intent)
                     finish()
 
@@ -106,7 +116,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     //saves user login data to keep ém logged in
-    fun checkUser() {
+    /*fun checkUser() {
 
         mAuthListenr = FirebaseAuth.AuthStateListener { object : FirebaseAuth.AuthStateListener {
 
@@ -139,8 +149,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
 
-
-        }
+        }*/
 
 
     //incase save user fails we store user login details and use it to always keep used logged in
@@ -152,18 +161,28 @@ class RegisterActivity : AppCompatActivity() {
 
         shared = getSharedPreferences(name, Context.MODE_PRIVATE)
         editor = shared.edit()
-        editor.putBoolean("areYouLogged", true)
+        editor.putBoolean("areYouRegistered", true)
         editor.apply()
 
 
     }
+    fun getsaved():Boolean{
+
+        val shared: SharedPreferences
+        val name: String = "savedata"
+        val editor: SharedPreferences.Editor
 
 
-    override fun onStart() {
-        super.onStart()
+        shared = getSharedPreferences(name, Context.MODE_PRIVATE)
+        val isdata:Boolean=shared.getBoolean("areYouRegistered",false)
+
+        return isdata
 
 
     }
+
+
+
 
 
 

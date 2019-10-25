@@ -11,6 +11,7 @@ import com.example.tinder.Chats.inboxAdapter
 import com.example.tinder.Chats.inboxModel
 import com.example.tinder.R
 import com.example.tinder.mainScreen
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_inbox.*
 
 class inboxActivity : AppCompatActivity() {
@@ -29,7 +30,7 @@ class inboxActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
 
-       val btt:Button=findViewById(R.id.sendMessageButton)
+       val btt:FloatingActionButton=findViewById(R.id.sendMessageButton)
 
     /*   btt.setOnClickListener(View.OnClickListener {
          val gotText= messageEditText.text.toString()

@@ -1,31 +1,23 @@
 package com.example.tinder.Settings
 
+import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 
 import com.example.tinder.mainScreen
-import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import de.hdodenhof.circleimageview.CircleImageView
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+
 import com.example.tinder.R
 import com.example.tinder.Settings.Model.profile_model
 import com.google.android.gms.tasks.OnCompleteListener
-import java.util.*
-import kotlin.collections.HashMap
-
 
 class setUpProfile : AppCompatActivity() {
 
@@ -33,9 +25,15 @@ class setUpProfile : AppCompatActivity() {
     lateinit var currentUserDb:DatabaseReference
 
 
-    lateinit var  t1:TextInputLayout
-    lateinit var  t2:TextInputLayout
-    lateinit var  t3:TextInputLayout
+    lateinit var  t1:EditText
+    lateinit var  t2:EditText
+    lateinit var  t3:EditText
+    lateinit var spinner:Spinner
+
+   var thisyear:Int = 0
+   var selectedYear:Int = 0
+   var age:Int = 0
+
     lateinit var gender:String
     lateinit var id:String
     lateinit var progress:ProgressDialog
@@ -48,6 +46,7 @@ class setUpProfile : AppCompatActivity() {
     lateinit var work:String
     lateinit var imageV:CircleImageView
 
+    @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_set_up_profile)
@@ -74,12 +73,32 @@ class setUpProfile : AppCompatActivity() {
         t1=findViewById(R.id.enterName)
         t2=findViewById(R.id.AboutYou)
         t3=findViewById(R.id.WorkPLace)
+        spinner=findViewById(R.id.getYearOfBirth)
+
+
+
+
+        val adapter = ArrayAdapter.createFromResource(this, R.array.YOB, android.R.layout.simple_spinner_item)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter=adapter
+
+        thisyear=2019
+
+
+
+
+
 
         imageV=findViewById(R.id.newProfilePic)
+        imageV.setOnClickListener(
+            View.OnClickListener {
 
-        namey=t1.editText!!.text.toString()
-        about=t2.editText!!.text.toString()
-        work=t3.editText!!.text.toString()
+                Toast.makeText(applicationContext,"Select a picture",Toast.LENGTH_SHORT).show()
+
+            }
+        )
+
+
 
 
             }
@@ -89,18 +108,39 @@ class setUpProfile : AppCompatActivity() {
 
 
 
-        if (t1.editText!!.text.trim().isNotEmpty() && t2.editText!!.text.trim().isNotEmpty() && t3.editText!!.text.trim().isNotEmpty()){
+        if (t1.text.trim().isNotEmpty() && t2.text.trim().isNotEmpty() && t3.text.trim().isNotEmpty()){
+
+            //getting values of the edit texts
+
+            namey=t1.text.toString()
+            about=t2.text.toString()
+            work=t3.text.toString()
+
+            selectedYear=Integer.parseInt(spinner.selectedItem.toString())
+             age=thisyear-selectedYear
+
+
+            val data:profile_model
 
             currentUserDb=FirebaseDatabase.getInstance().reference.child("Users").child(gender).child(id)
 
-            val data:profile_model=profile_model(namey,work,about)
+            Toast.makeText(applicationContext,"Your age is\t"+age,Toast.LENGTH_SHORT).show()
 
-            currentUserDb.child("Name").setValue(namey)
+         /*  val addData=currentUserDb.push().key
+           data = profile_model(namey,about,work,age)
+            currentUserDb.child(addData!!).setValue(data)
+            currentUserDb.child(addData).setValue(data).addOnCompleteListener( OnCompleteListener {
+                Toast.makeText(this,"Saved",Toast.LENGTH_SHORT).show()
+                intent = Intent(this, mainScreen::class.java)
+                startActivity(intent)
+                finish()
+            })*/
+
+           currentUserDb.child("Name").setValue(namey)
             currentUserDb.child("Work").setValue(work)
-            currentUserDb.child("About").setValue(about).addOnCompleteListener( OnCompleteListener {
+            currentUserDb.child("Age").setValue(age).addOnCompleteListener( OnCompleteListener {
 
-
-                Toast.makeText(this,"saved Sucessfully",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"Saved",Toast.LENGTH_SHORT).show()
 
                 intent = Intent(this, mainScreen::class.java)
                 startActivity(intent)
@@ -108,22 +148,11 @@ class setUpProfile : AppCompatActivity() {
 
             })
 
-            /*val addData=currentUserDb.push().key
-
-
-            currentUserDb.child(addData!!).setValue(data).addOnCompleteListener(OnCompleteListener {
-
-
-            })*/
-
-
         }else{
 
             Toast.makeText(this,"Can't save Blank values",Toast.LENGTH_SHORT).show()
 
         }
-
-
 
 
             }

@@ -85,8 +85,8 @@ class SignUpActivity : AppCompatActivity() {
 
 
 
-        //getting Id of the current user
-        val userId = fireAuth.getCurrentUser()!!.getUid()
+
+
 
         btn.setOnClickListener(View.OnClickListener {
 
@@ -97,10 +97,17 @@ class SignUpActivity : AppCompatActivity() {
 
            // pdialog.show()
             fireAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task: Task<AuthResult> ->
+
+
+
                 if (task.isSuccessful) {
+
+                    //getting Id of the current user
+                    val userId = fireAuth.getCurrentUser()!!.getUid()
 
                     dialog.show()
                     text1=dialog.findViewById(R.id.submitText)
+
 
 
                     text1.setOnClickListener(View.OnClickListener {
