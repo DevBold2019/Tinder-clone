@@ -60,8 +60,8 @@ class fragment1 : Fragment() {
         user=FAuth.currentUser!!
 
 
-
-        CurrentUserMale=FirebaseDatabase.getInstance().reference.child("Uses").child("Male")
+        //If the user is Male we set the user sex to male but first we use the user id to know
+        CurrentUserMale=FirebaseDatabase.getInstance().reference.child("Users").child("Male")
        CurrentUserMale.addChildEventListener(object : ChildEventListener {
 
            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
@@ -85,6 +85,7 @@ class fragment1 : Fragment() {
        })
 
 
+        //If the user is female
         CurrentUserFeMale=FirebaseDatabase.getInstance().reference.child("Users").child("Female")
         CurrentUserFeMale.addChildEventListener(object : ChildEventListener {
 
