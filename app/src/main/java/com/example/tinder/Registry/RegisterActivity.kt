@@ -87,29 +87,39 @@ class RegisterActivity : AppCompatActivity() {
            val email =e1.text.toString()
            val password = e2.text.toString()
 
+            if (e1.text.isBlank()|| e2.text.isBlank()){
 
-            //signing user
-            fAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(this){ task ->
+                Toast.makeText(this,"Can't log in",Toast.LENGTH_SHORT).show()
 
-                currentUser= fAuth.currentUser!!
 
-                if (task.isSuccessful){
-                    dialog.dismiss()
+            }else {
 
-                    Toast.makeText(applicationContext,"Current User is"+currentUser.toString(), Toast.LENGTH_SHORT).show()
-                    Toast.makeText(applicationContext,"Success", Toast.LENGTH_SHORT).show()
+                fAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(this){ task ->
 
-                    saveUser()
+                    currentUser= fAuth.currentUser!!
 
-                    intent= Intent(this,mainScreen::class.java)
-                    startActivity(intent)
-                    finish()
+                    if (task.isSuccessful){
+                        dialog.dismiss()
 
-                }else{
-                    Toast.makeText(applicationContext,"Cant Register you", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(applicationContext,"Welcome Again", Toast.LENGTH_SHORT).show()
+
+                        saveUser()
+
+                        intent= Intent(this,mainScreen::class.java)
+                        startActivity(intent)
+                        finish()
+
+                    }else{
+                        Toast.makeText(applicationContext,"Cant Register you", Toast.LENGTH_SHORT).show()
+                    }
+
                 }
 
             }
+
+
+            //signing user
+
 
         })
 
@@ -186,9 +196,8 @@ class RegisterActivity : AppCompatActivity() {
 
 
 
+}
 
-
-    }
 
 
 

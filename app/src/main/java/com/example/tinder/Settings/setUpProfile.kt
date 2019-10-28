@@ -1,8 +1,10 @@
 package com.example.tinder.Settings
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -34,6 +36,8 @@ class setUpProfile : AppCompatActivity() {
    var selectedYear:Int = 0
    var age:Int = 0
 
+    lateinit var result:Uri
+
     lateinit var gender:String
     lateinit var id:String
     lateinit var progress:ProgressDialog
@@ -57,7 +61,7 @@ class setUpProfile : AppCompatActivity() {
 
         fAuth= FirebaseAuth.getInstance()
 
-        //getting curent user
+        //getting current user
       currentFirebaseUser = fAuth.currentUser!!.uid
 
 
@@ -68,14 +72,10 @@ class setUpProfile : AppCompatActivity() {
         id=bundle.getString("userid").toString()
 
 
-
-
         t1=findViewById(R.id.enterName)
         t2=findViewById(R.id.AboutYou)
         t3=findViewById(R.id.WorkPLace)
         spinner=findViewById(R.id.getYearOfBirth)
-
-
 
 
         val adapter = ArrayAdapter.createFromResource(this, R.array.YOB, android.R.layout.simple_spinner_item)
@@ -94,6 +94,10 @@ class setUpProfile : AppCompatActivity() {
             View.OnClickListener {
 
                 Toast.makeText(applicationContext,"Select a picture",Toast.LENGTH_SHORT).show()
+                intent= Intent()
+                intent.setType("images/*")
+                intent.setAction(Intent.ACTION_GET_CONTENT)
+                startActivityForResult(intent,1)
 
             }
         )
@@ -119,8 +123,6 @@ class setUpProfile : AppCompatActivity() {
             selectedYear=Integer.parseInt(spinner.selectedItem.toString())
              age=thisyear-selectedYear
 
-
-            val data:profile_model
 
             currentUserDb=FirebaseDatabase.getInstance().reference.child("Users").child(gender).child(id)
 
@@ -157,6 +159,18 @@ class setUpProfile : AppCompatActivity() {
 
             }
 
+    //if the requestCode matches we set the image to the Image view
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode==1 && resultCode== Activity.RESULT_OK){
+
+            val picUri = data!!.data//get data
+           result = picUri!!
+            imageV.setImageURI(result)
+
+        }
+    }
 
 
 

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.tinder.Matches.MatchesArrayAdapter
 import com.example.tinder.Matches.matchAdapter
 import com.example.tinder.Matches.matchModel
 import com.example.tinder.R
@@ -30,7 +31,7 @@ class fragment1 : Fragment() {
     lateinit var userSex:String
     lateinit var OpppositeSex:String
 
-    lateinit var  adapter:matchAdapter
+    lateinit var  adapter:MatchesArrayAdapter
     lateinit var  list:MutableList<matchModel>
     lateinit var cards:SwipeFlingAdapterView
 
@@ -48,6 +49,47 @@ class fragment1 : Fragment() {
 
 
         getuserSex()
+
+
+
+        //setting listener on each swipe
+        cards.setFlingListener(object : SwipeFlingAdapterView.onFlingListener {
+
+            override fun removeFirstObjectInAdapter() {
+                // this is the simplest way to delete an object from the Adapter (/AdapterView)
+
+                list.removeAt(0)
+                adapter.notifyDataSetChanged()
+            }
+
+            override fun onLeftCardExit(dataObject: Any) {
+
+                Toast.makeText(getContext(),"Dislike ",Toast.LENGTH_LONG).show()
+
+            }
+
+            override fun onRightCardExit(dataObject: Any) {
+
+                Toast.makeText(getContext(),"Like",Toast.LENGTH_LONG).show()
+
+            }
+
+            override fun onAdapterAboutToEmpty(itemsInAdapter: Int) {
+                // Ask for more data here
+            }
+
+            override fun onScroll(scrollProgressPercent: Float) {
+
+            }
+
+
+
+        })
+
+
+
+
+
 
 
         return view
@@ -101,7 +143,6 @@ class fragment1 : Fragment() {
             override fun onCancelled(p0: DatabaseError) {
             }
             override fun onChildMoved(p0: DataSnapshot, p1: String?) {
-
             }
             override fun onChildChanged(p0: DataSnapshot, p1: String?) {
             }
@@ -121,53 +162,19 @@ class fragment1 : Fragment() {
 
                 if (p0.exists()){
 
+                    //val key=p0.key
+                    Toast.makeText(context,"Loading Data",Toast.LENGTH_SHORT).show()
+
                     list= mutableListOf(matchModel(p0.child("Name").value.toString(),p0.child("Age").value.toString()))
 
-                    adapter=matchAdapter(getContext()!!,list)
+                    adapter=MatchesArrayAdapter(context!!,R.layout.matches_lay,list)
+                    adapter.notifyDataSetChanged()
                     cards.adapter=adapter
 
-                    cards.setFlingListener(object : SwipeFlingAdapterView.onFlingListener {
-
-                        override fun removeFirstObjectInAdapter() {
-                            // this is the simplest way to delete an object from the Adapter (/AdapterView)
-
-                            list.removeAt(0)
-                            adapter.notifyDataSetChanged()
-                        }
-
-                        override fun onLeftCardExit(dataObject: Any) {
-
-                            Toast.makeText(getContext(),"Dislike ",Toast.LENGTH_LONG).show()
-
-                        }
-
-                        override fun onRightCardExit(dataObject: Any) {
-
-                            Toast.makeText(getContext(),"Like",Toast.LENGTH_LONG).show()
-
-                        }
-
-                        override fun onAdapterAboutToEmpty(itemsInAdapter: Int) {
-                            // Ask for more data here
-                        }
-
-                        override fun onScroll(scrollProgressPercent: Float) {
-
-                        }
-
-
-
-                    })
-
-
-
-
+                }else{
+                    Toast.makeText(context,"No Data",Toast.LENGTH_SHORT).show()
                 }
-
-
-
             }
-
             override fun onCancelled(p0: DatabaseError) {
             }
             override fun onChildMoved(p0: DataSnapshot, p1: String?) {
@@ -177,7 +184,6 @@ class fragment1 : Fragment() {
             override fun onChildRemoved(p0: DataSnapshot) {
 
             }
-
         })
 
 
